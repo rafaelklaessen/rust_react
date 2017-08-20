@@ -15,8 +15,7 @@ use router::Router;
 use staticfile::Static;
 use mount::Mount;
 
-#[allow(unused_variables)]
-fn index(req: &mut Request) -> IronResult<Response> {
+fn index(_req: &mut Request) -> IronResult<Response> {
     let mut file = File::open("public/index.html").unwrap();
     let mut contents = String::new();
     file.read_to_string(&mut contents).unwrap();
