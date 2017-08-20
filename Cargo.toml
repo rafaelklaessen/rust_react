@@ -1,0 +1,8 @@
+[package]
+name = "rust_login"
+version = "0.1.0"
+authors = ["Rafael Klaessen <rafaelklaessen.nl@gmail.com>"]
+
+[dependencies]
+iron = "0.5.*"
+router = "*"
