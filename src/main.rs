@@ -17,30 +17,21 @@ use mount::Mount;
 
 #[allow(unused_variables)]
 fn index(req: &mut Request) -> IronResult<Response> {
-    let mut file = File::open("app/index.html").unwrap();
+    let mut file = File::open("public/index.html").unwrap();
     let mut contents = String::new();
     file.read_to_string(&mut contents).unwrap();
 
     Ok(Response::with((status::Ok, Header(ContentType::html()), contents)))
 }
 
-fn handler(req: &mut Request) -> IronResult<Response> {
-    let ref query = req.extensions.get::<Router>()
-                        .unwrap()
-                        .find("query")
-                        .unwrap_or("/");
-    Ok(Response::with((status::Ok, *query)))
-}
-
 fn main() {
     let mut router = Router::new();
     router.get("/", index, "index");
-    router.get("/:query", handler, "query");
 
     let mut mount = Mount::new();
     mount
         .mount("/", router)
-        .mount("/static/eh", Static::new(Path::new("test/")));
+        .mount("/public/", Static::new(Path::new("public/")));
 
     Iron::new(mount).http("localhost:3000").unwrap();
 }
